@@ -10,3 +10,6 @@ build/
 out/
 bin/
 .DS_Store
+settings.xml
+*.xml.bak
+~/.m2/settings.xml
