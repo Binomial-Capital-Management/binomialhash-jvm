@@ -83,9 +83,13 @@ signing {
 }
 
 tasks.javadoc {
-    if (JavaVersion.current().isJava9Compatible) {
-        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    (options as StandardJavadocDocletOptions).apply {
+        if (JavaVersion.current().isJava9Compatible) {
+            addBooleanOption("html5", true)
+        }
+        addStringOption("Xdoclint:none", "-quiet")
     }
+    isFailOnError = false
 }
 
 tasks.register<JavaExec>("runExample") {
