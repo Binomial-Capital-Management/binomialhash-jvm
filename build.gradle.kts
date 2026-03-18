@@ -4,7 +4,7 @@ plugins {
     signing
 }
 
-group = "com.binomialtechnologies"
+group = "io.github.binomial-capital-management"
 version = "0.1.2"
 
 java {

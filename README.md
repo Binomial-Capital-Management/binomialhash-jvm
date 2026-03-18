@@ -1,7 +1,7 @@
 # BinomialHash JVM
 
 [![CI](https://github.com/Binomial-Capital-Management/binomialhash-jvm/actions/workflows/ci.yml/badge.svg)](https://github.com/Binomial-Capital-Management/binomialhash-jvm/actions/workflows/ci.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/com.binomialtechnologies/binomialhash)](https://central.sonatype.com/artifact/com.binomialtechnologies/binomialhash)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.binomial-capital-management/binomialhash)](https://central.sonatype.com/artifact/io.github.binomial-capital-management/binomialhash)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Content-addressed, schema-aware structured data compaction for LLM tool outputs — Java/JVM edition.
@@ -16,7 +16,7 @@ BinomialHash intercepts large JSON payloads from tool calls, infers schema and s
 
 ```kotlin
 dependencies {
-    implementation("com.binomialtechnologies:binomialhash:0.1.2")
+    implementation("io.github.binomial-capital-management:binomialhash:0.1.2")
 }
 ```
 
@@ -24,7 +24,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'com.binomialtechnologies:binomialhash:0.1.2'
+    implementation 'io.github.binomial-capital-management:binomialhash:0.1.2'
 }
 ```
 
@@ -32,7 +32,7 @@ dependencies {
 
 ```xml
 <dependency>
-    <groupId>com.binomialtechnologies</groupId>
+    <groupId>io.github.binomial-capital-management</groupId>
     <artifactId>binomialhash</artifactId>
     <version>0.1.2</version>
 </dependency>
@@ -48,7 +48,7 @@ dependencies {
 ## Quickstart
 
 ```java
-import com.binomialtechnologies.binomialhash.BinomialHash;
+import io.github.binomial-capital-management.binomialhash.BinomialHash;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 var bh = new BinomialHash();
@@ -78,8 +78,8 @@ BinomialHash ships with provider-neutral `ToolSpec` definitions that expose its 
 ### OpenAI
 
 ```java
-import com.binomialtechnologies.binomialhash.adapters.OpenAiAdapter;
-import com.binomialtechnologies.binomialhash.tools.ToolSpec;
+import io.github.binomial-capital-management.binomialhash.adapters.OpenAiAdapter;
+import io.github.binomial-capital-management.binomialhash.tools.ToolSpec;
 
 List<ToolSpec> specs = buildMySpecs(bh);
 var tools = OpenAiAdapter.getOpenAiTools(specs);           // Responses API format
@@ -92,7 +92,7 @@ Object result = OpenAiAdapter.handleOpenAiToolCall(specs, name, arguments);
 ### Anthropic
 
 ```java
-import com.binomialtechnologies.binomialhash.adapters.AnthropicAdapter;
+import io.github.binomial-capital-management.binomialhash.adapters.AnthropicAdapter;
 
 var tools = AnthropicAdapter.getAnthropicTools(specs);
 Object result = AnthropicAdapter.handleAnthropicToolUse(specs, name, inputMap);
@@ -101,7 +101,7 @@ Object result = AnthropicAdapter.handleAnthropicToolUse(specs, name, inputMap);
 ### Google Gemini
 
 ```java
-import com.binomialtechnologies.binomialhash.adapters.GeminiAdapter;
+import io.github.binomial-capital-management.binomialhash.adapters.GeminiAdapter;
 
 var tools = GeminiAdapter.getGeminiTools(specs);
 Object result = GeminiAdapter.handleGeminiToolCall(specs, name, argsMap);
@@ -110,7 +110,7 @@ Object result = GeminiAdapter.handleGeminiToolCall(specs, name, argsMap);
 ### xAI / Grok
 
 ```java
-import com.binomialtechnologies.binomialhash.adapters.XaiAdapter;
+import io.github.binomial-capital-management.binomialhash.adapters.XaiAdapter;
 
 var tools = XaiAdapter.getXaiTools(specs);  // Uses Responses API format
 Object result = XaiAdapter.handleXaiToolCall(specs, name, arguments);
@@ -119,7 +119,7 @@ Object result = XaiAdapter.handleXaiToolCall(specs, name, arguments);
 ### Provider Router
 
 ```java
-import com.binomialtechnologies.binomialhash.adapters.AdapterRouter;
+import io.github.binomial-capital-management.binomialhash.adapters.AdapterRouter;
 
 var tools = AdapterRouter.getToolsForProvider(specs, "openai");
 var tools = AdapterRouter.getToolsForProvider(specs, "anthropic");
@@ -161,7 +161,7 @@ The `examples` package contains 17 runnable examples covering:
 Run an example:
 
 ```bash
-./gradlew runExample -PmainClass=com.binomialtechnologies.binomialhash.examples.Example01_OpenAiAgentLoop
+./gradlew runExample -PmainClass=io.github.binomial-capital-management.binomialhash.examples.Example01_OpenAiAgentLoop
 ```
 
 Live examples (01-03, 15-17) require API keys in a `.env` file — see `.env.example`.
@@ -169,7 +169,7 @@ Live examples (01-03, 15-17) require API keys in a `.env` file — see `.env.exa
 ## Package Structure
 
 ```
-com.binomialtechnologies.binomialhash
+io.github.binomial-capital-management.binomialhash
 ├── BinomialHash             # Core — ingest, retrieve, aggregate, query, groupBy, schema
 ├── BinomialHashSlot         # Content-addressed storage slot
 ├── BinomialHashPolicy       # Compaction thresholds and limits
