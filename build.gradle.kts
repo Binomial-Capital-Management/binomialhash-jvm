@@ -67,12 +67,8 @@ publishing {
     }
     repositories {
         maven {
-            name = "CentralPortal"
-            url = uri("https://central.sonatype.com/api/v1/publisher/deployments/download/")
-            credentials {
-                username = findProperty("ossrhUsername") as String? ?: System.getenv("OSSRH_USERNAME") ?: ""
-                password = findProperty("ossrhPassword") as String? ?: System.getenv("OSSRH_PASSWORD") ?: ""
-            }
+            name = "staging"
+            url = uri(layout.buildDirectory.dir("staging-deploy"))
         }
     }
 }

@@ -17,12 +17,30 @@ jobs:
           java-version: 17
       - uses: gradle/actions/setup-gradle@v4
 
-      - name: Publish
-        run: ./gradlew publish
+      - name: Build and stage artifacts
+        run: ./gradlew publishMavenJavaPublicationToStagingRepository
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.GPG_KEY_ID }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_PASSPHRASE }}
           CI: true
+
+      - name: Create bundle
+        run: cd build/staging-deploy && zip -r ../../bundle.zip .
+
+      - name: Upload to Central Portal
+        run: |
+          curl -s -o response.json -w "%{http_code}" \
+            -u "${{ secrets.OSSRH_USERNAME }}:${{ secrets.OSSRH_PASSWORD }}" \
+            --request POST \
+            --header "Content-Type: multipart/form-data" \
+            --form "bundle=@bundle.zip" \
+            "https://central.sonatype.com/api/v1/publisher/upload?publishingType=AUTOMATIC" \
+            > status_code.txt
+          STATUS=$(cat status_code.txt)
+          echo "Response: $(cat response.json)"
+          echo "Status: $STATUS"
+          if [ "$STATUS" != "201" ]; then
+            echo "::error::Upload failed with status $STATUS"
+            exit 1
+          fi
