@@ -79,6 +79,12 @@ publishing {
 
 signing {
     isRequired = System.getenv("CI")?.toBoolean() ?: false
+    val signingKey = findProperty("signingKey") as String? ?: System.getenv("ORG_GRADLE_PROJECT_signingKey")
+    val signingKeyId = findProperty("signingKeyId") as String? ?: System.getenv("ORG_GRADLE_PROJECT_signingKeyId")
+    val signingPassword = findProperty("signingPassword") as String? ?: System.getenv("ORG_GRADLE_PROJECT_signingPassword") ?: ""
+    if (signingKey != null) {
+        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    }
     sign(publishing.publications["mavenJava"])
 }
 
